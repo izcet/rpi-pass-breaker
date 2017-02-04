@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open_file.c                                        :+:      :+:    :+:   */
+/*   read_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: irhett <irhett@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/03 05:15:13 by irhett            #+#    #+#             */
-/*   Updated: 2017/02/03 05:23:44 by irhett           ###   ########.fr       */
+/*   Created: 2017/02/03 16:18:19 by irhett            #+#    #+#             */
+/*   Updated: 2017/02/03 23:46:42 by irhett           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ char		**read_list(char *file, int *num)
 	ans = (char**)malloc(sizeof(char*) * 128);
 	while (gnl)
 	{
-		gnl = get_next_line(fd, &ans[num++]);
+		gnl = get_next_line(fd, &ans[*num]);
 		if (gnl > 0)
-			*num++;
+			(*num)++;
 	}
 	close(fd);
 

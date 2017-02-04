@@ -1,67 +1,108 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   keygen.c                                           :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: irhett <irhett@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/02 22:29:29 by irhett            #+#    #+#             */
-/*   Updated: 2017/02/03 05:33:27 by irhett           ###   ########.fr       */
+/*   Created: 2017/02/03 15:57:29 by irhett            #+#    #+#             */
+/*   Updated: 2017/02/04 00:29:31 by irhett           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "library.h"
 
-//seed_known/known-01/keylen-02
+//seed_known/known-01/keyseed_i-02
 //			01-20		00-16
 
 #define SRCDIR seed_known
+#define MAX_SEED_LEN 8 
+#define RANGE "abcdefgh" 
+#define RANGE_LEN 8
 
 int		main(int argc, char **argv)
-{
-	int		num_que;
-	int		num_ans;
-	char	**que;
-	char	**ans;
+{	
+	char	**answers_source;
+	char	**temp_ans;
+	int		num_answers; // 20
 
-	if (argc != 4)
+	int		seed_i; // 0 -> 16
+	int		index;
+
+	int		fd;
+	char	*file;
+
+	int		*nums;
+	int		last_num;
+	char	*seed;	//the randomization factor
+	char	*key; // what is written to the file
+
+	if (argc != 3) // argv[0] answer_file output_directory
 	{
-		printf("\nInternal error invalid input to executable \"%s\"\n", argv[0]);
+		printf("Usage: %s <answer_file> <output_directory>\n", argv[0]);
 		return (0);
 	}
 
-	que = read_list(argv[1], &num_que);
-	if (!que)
+	answers_source = read_list(argv[1], &num_answers);
+	if (!answers_source)
 	{
-		printf("Error opening question file \"%s\"\n", argv[1]);
+		printf("Error opening answer file \"%s\"\n", argv[1]);
 		return (0);
 	}
+	printf("answer file read\n");
 
-	ans = read_list(argv[2], &num_ans);
-	if (!ans)
+	seed_i = 1;
+	while (seed_i <= MAX_SEED_LEN)
 	{
-		printf("Error opening answer file \"%s\"\n", argv[2]);
-		cleanup(que, num_que);
-		return (0);
+		printf("seed_i = %i\n", seed_i);
+		nums = (int*)malloc(sizeof(int) * MAX_SEED_LEN);
+		index = 0;
+		while (index < MAX_SEED_LEN)
+			nums[index++] = 0;
+
+		while (nums[0] < RANGE_LEN)
+		{
+
+			last_num = seed_i - 1;
+			//printf("last_num = %i\n", last_num);
+			while (nums[last_num] < RANGE_LEN)
+			{
+				temp_ans = copy(answers_source, num_answers);
+				seed = make_seed(RANGE, seed_i, nums);
+				//printf("Seed is \"%s\"\n", seed);
+				shuffle_n_strings(temp_ans, seed, num_answers);
+
+				key = concat_strings(temp_ans, num_answers);
+
+				file = make_dir_str(argv[2], argv[1], seed);
+				fd = open(file, O_WRONLY|O_CREAT, 0444);
+				if (fd == -1)
+					printf("File \"%s\" not made.\n", file); //, key was \"%s\"\n", file, key);
+				else
+				{
+					write(fd, key, ft_strlen(key));
+					close(fd);
+				}
+
+				free(key);
+				free(file);
+				free(seed);
+				free(temp_ans);
+
+				nums[last_num]++;
+			}
+			while (nums[last_num] == RANGE_LEN && last_num != 0) 
+			{
+				nums[last_num] = 0;
+				last_num--;
+				nums[last_num]++;
+			}
+
+		}
+		seed_i++;
+		free(nums);
 	}
 
-	shuffle_n_strings(questions, argv[1], index);
-	ans = security_questions(questions, index);
-
-	fd = open(argv[3], O_WRONLY|O_CREAT, 0444);
-	if (fd == -1)
-	{
-		printf("\nInternal error creating key file \"%s\" from executable \"%s\".\n", argv[3], argv[0]);
-		printf("The key is:\n\n");
-		printf("%s\n", ans);
-	}
-	else
-	{
-		write(fd, ans, ft_strlen(ans));
-		close(fd);
-	}
-
-	free(ans);
-	free(questions);
+	cleanup(answers_source, num_answers);
 	return (0);
 }
