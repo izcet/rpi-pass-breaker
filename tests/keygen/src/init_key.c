@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_ans.c                                         :+:      :+:    :+:   */
+/*   init_key.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: irhett <irhett@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/07 10:48:34 by irhett            #+#    #+#             */
-/*   Updated: 2017/02/07 10:48:38 by irhett           ###   ########.fr       */
+/*   Created: 2017/02/07 18:58:56 by irhett            #+#    #+#             */
+/*   Updated: 2017/02/07 20:06:05 by irhett           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "library.h"
 
-char	*init_ans(unsigned int len)
+char	*init_key(unsigned int len)
 {
-	char			ret;
+	char			*ret;
 	unsigned int	i;
 	char			c;
 

@@ -6,13 +6,13 @@
 /*   By: irhett <irhett@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 10:48:42 by irhett            #+#    #+#             */
-/*   Updated: 2017/02/07 12:16:33 by irhett           ###   ########.fr       */
+/*   Updated: 2017/02/07 20:13:24 by irhett           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "library.h"
 
-char	*init_seed(int len, int *nums)
+char	*init_seed(int len, unsigned int *nums)
 {
 	char	*range = " 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	char	*ret;

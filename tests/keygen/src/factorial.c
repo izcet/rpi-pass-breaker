@@ -6,14 +6,12 @@
 /*   By: irhett <irhett@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 12:16:43 by irhett            #+#    #+#             */
-/*   Updated: 2017/02/07 12:19:02 by irhett           ###   ########.fr       */
+/*   Updated: 2017/02/07 20:00:09 by irhett           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 unsigned long		factorial(unsigned int x)
 {
-	if (x < 0)
-		return (0);
 	if (x == 0)
 		return (1);
 	return (x * factorial(x - 1));

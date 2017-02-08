@@ -6,13 +6,13 @@
 /*   By: irhett <irhett@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 23:13:03 by irhett            #+#    #+#             */
-/*   Updated: 2017/02/03 23:22:13 by irhett           ###   ########.fr       */
+/*   Updated: 2017/02/07 19:53:08 by irhett           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "library.h"
 
-void	cleanup(char **arr, int len)
+/*void	cleanup(char **arr, int len)
 {
 	int		i;
 
@@ -23,7 +23,7 @@ void	cleanup(char **arr, int len)
 		i++;
 	}
 	free(arr);
-}
+}*/
 
 char	**copy(char **arr, int len)
 {
